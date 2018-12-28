@@ -7,6 +7,10 @@ public class GeografijaDAO {
     private static GeografijaDAO instance = null;
     private static Connection conn;
 
+    public static Connection getConn() {
+        return conn;
+    }
+
     private void napraviTabele() throws SQLException {
         String sql = "CREATE TABLE IF NOT EXISTS gradovi (\n"
                 + "	id integer PRIMARY KEY,\n"
