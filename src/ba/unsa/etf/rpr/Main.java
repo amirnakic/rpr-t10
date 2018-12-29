@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
@@ -34,10 +36,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("geografija.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("Translation");
+        FXMLLoader loader = new FXMLLoader( getClass().getResource("geografija.fxml" ), bundle);
         loader.setController(new Controller());
         Parent root = loader.load();
-        primaryStage.setTitle("Geografija - RPR tutorijal 9");
+        primaryStage.setTitle(bundle.getString("appname"));
+        Locale.setDefault(new Locale("bs", "BA"));
         primaryStage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
         primaryStage.setResizable(false);
         primaryStage.show();
