@@ -33,7 +33,7 @@ public class Controller {
 
     public void clickOnŠtampaj(ActionEvent actionEvent) {
         try {
-            new PrintReport().showReport(dao.getConn());
+            new GradoviReport().showReport(dao.getConn());
         } catch (JRException e1) {
             e1.printStackTrace();
         }
