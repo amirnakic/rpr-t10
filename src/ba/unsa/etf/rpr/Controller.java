@@ -2,9 +2,11 @@ package ba.unsa.etf.rpr;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import net.sf.jasperreports.engine.JRException;
-
 import java.io.File;
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class Controller {
@@ -98,5 +100,35 @@ public class Controller {
         stampajBtn.setText(ResourceBundle.getBundle("Translation_fr").getString("Stampaj"));
         drzavaLbl.setText(ResourceBundle.getBundle("Translation_fr").getString("Drzava"));
         glavniGradLbl2.setText(ResourceBundle.getBundle("Translation_fr").getString("Glavni_grad"));
+    }
+
+    private String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // empty extension
+        }
+        return name.substring(lastIndexOf);
+    }
+
+    public void clickOnSave(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter docFilter = new FileChooser.ExtensionFilter("Microsoft Word Documents (*.docx)", "*.docx");
+        FileChooser.ExtensionFilter pdfFilter = new FileChooser.ExtensionFilter("PDF Documents (*.pdf)", "*.pdf");
+        FileChooser.ExtensionFilter xlsFilter = new FileChooser.ExtensionFilter("Microsoft Excel Documents (*.xlsx)", "*.xlsx");
+        fileChooser.getExtensionFilters().add(docFilter);
+        fileChooser.getExtensionFilters().add(pdfFilter);
+        fileChooser.getExtensionFilters().add(xlsFilter);
+        File file = fileChooser.showSaveDialog(new Stage());
+        if (file != null) {
+            GradoviReport gradoviReport = new GradoviReport();
+            try {
+                gradoviReport.saveAs(getFileExtension(file), GeografijaDAO.getConn(), file.getCanonicalPath());
+            } catch (JRException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
